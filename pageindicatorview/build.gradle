@@ -1,0 +1,99 @@
+apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
+
+
+android {
+    namespace 'com.rd.pageindicatorview'
+    compileSdkVersion 33
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 33
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
+}
+
+def localProperties = new Properties()
+localProperties.load(new FileInputStream(rootProject.file("local.properties")))
+
+publishing {
+    publications {
+        release(MavenPublication) {
+            groupId = 'com.github.vasantikaHorizontal'
+            artifactId = 'PageIndicatorView'
+            version = '1.0.0'
+
+            afterEvaluate {
+                from components.release
+
+//                pom {
+//                    name = 'AVLoadingIndicatorView'
+//                    description = 'Loading indicators for Android'
+//                    url = 'https://github.com/vasantikaHorizontal/AVLoadingIndicator'
+////                    licenses {
+////                        license {
+////                            name = 'The Apache License, Version 2.0'
+////                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+////                        }
+////                    }
+//                    developers {
+//                        developer {
+//                            id = 'vasantikaHorizontal'
+//                            name = 'Vasantika Sindhi'
+//                            email = 'vsindhi@horizontal.com'
+//                        }
+//                    }
+////                    scm {
+////                        connection = 'scm:git:git://git@github.com:maitrungduc1410/AVLoadingIndicatorView.git'
+////                        developerConnection = 'scm:git:ssh://git@github.com:maitrungduc1410/AVLoadingIndicatorView.git'
+////                        url = 'https://github.com/maitrungduc1410/AVLoadingIndicatorView'
+////                    }
+//                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            credentials {
+                username = localProperties.getProperty("mavenUser")
+                password = localProperties.getProperty("mavenPassword")
+            }
+
+            // change URLs to point to your repos, e.g. http://my.org/repo
+            def releasesRepoUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            def snapshotsRepoUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+        }
+    }
+}
+
+dependencies {
+    repositories {
+        maven { url "https://maven.google.com" }
+    }
+    implementation 'androidx.annotation:annotation:1.0.0'
+    implementation 'androidx.core:core:1.0.0'
+    implementation 'androidx.viewpager:viewpager:1.0.0'
+}
+
