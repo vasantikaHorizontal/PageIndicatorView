@@ -42,7 +42,7 @@ publishing {
         release(MavenPublication) {
             groupId = 'com.github.vasantikaHorizontal'
             artifactId = 'PageIndicatorView'
-            version = '1.0.1'
+            version = '1.0.2'
 
             afterEvaluate {
                 from components.release
@@ -89,9 +89,6 @@ publishing {
 }
 
 dependencies {
-    repositories {
-        maven { url "https://maven.google.com" }
-    }
     implementation 'androidx.annotation:annotation:1.0.0'
     implementation 'androidx.core:core:1.0.0'
     implementation 'androidx.viewpager:viewpager:1.0.0'
